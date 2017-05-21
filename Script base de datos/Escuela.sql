@@ -23,20 +23,21 @@ Dias char(25) Not Null,
 Hora char(20) Not Null,
 primary key(IdHorario)
 );
-
+Create Table Salon(
+NoSalon char(10) Not Null,
+Espacio int,
+Primary Key(NoSalon)
+);
 create table Curso(
 Clave char(20),
 Materia int Not Null,
 NoIntegrantes int,
 Profesor int,
+Salon char(10),
 Primary Key(Clave),
 FOREIGN KEY (Materia) REFERENCES Materia(IdMateria),
-FOREIGN KEY (Profesor) REFERENCES Profesor(IdProfesor)
-);
-Create Table Salon(
-NoSalon char(10) Not Null,
-Espacio int,
-Primary Key(NoSalon)
+FOREIGN KEY (Profesor) REFERENCES Profesor(IdProfesor),
+FOREIGN KEY (Salon) REFERENCES Salon(NoSalon)
 );
 Create Table Alumno(
 Matricula char(8) Not Null,
@@ -61,12 +62,7 @@ Curso char(20),
 FOREIGN KEY (Curso) REFERENCES Curso(Clave),
 FOREIGN KEY (Horario) REFERENCES Horario(IdHorario)
 );
-Create Table CursoSalon(
-Salon char(10),
-Curso char(20),
-FOREIGN KEY (Curso) REFERENCES Curso(Clave),
-FOREIGN KEY (Salon) REFERENCES Salon(NoSalon)
-);
+
 /**************  Horarios  **************/
 /*Lunes*/
 /*Dos horas*/
@@ -310,110 +306,111 @@ INSERT INTO salon(NoSalon, Espacio)VALUES('S-69', 25);
 INSERT INTO salon(NoSalon, Espacio)VALUES('S-70', 25);
 INSERT INTO salon(NoSalon, Espacio)VALUES('S-71', 25);
 INSERT INTO salon(NoSalon, Espacio)VALUES('S-72', 25);
+
+
 /**************  Cursos (Para ejemplificar, se crearon cursos para semestre: 1,4,7) **************/
 /*Primer Semestre*/
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-001', 1, 0,1);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-001.1', 1, 0,1);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-001.2', 1, 0,2);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-001.3', 1, 0,2);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-002', 2, 0,3);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-002.1', 2, 0,3);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-002.2', 2, 0,4);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-002.3', 2, 0,4);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-003', 3, 0,5);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-003.1', 3, 0,6);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-004', 4, 0,7);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-004.1', 4, 0,8);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-005', 5, 0,9);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-005.1', 5, 0,10);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-006', 6, 0,11);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS1-006.1', 6, 0,12);
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-001', 1, 0,1,'S-01');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-001.1', 1, 0,1,'S-01');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-001.2', 1, 0,2,'S-02');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-001.3', 1, 0,2,'S-02');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-002', 2, 0,3,'S-03');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-002.1', 2, 0,3,'S-03');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-002.2', 2, 0,4,'S-04');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-002.3', 2, 0,4,'S-04');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-003', 3, 0,5,'S-05');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-003.1', 3, 0,6,'S-06');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-004', 4, 0,7,'S-07');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-004.1', 4, 0,8,'S-08');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-005', 5, 0,9,'S-09');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-005.1', 5, 0,10,'S-10');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-006', 6, 0,11,'S-11');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS1-006.1', 6, 0,12,'S-12');
 /*Segundo Semestre*/
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-001', 7, 0,13);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-001.1', 7, 0,13);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-001.2', 7, 0,14);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-001.3', 7, 0,14);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-002', 8, 0,15);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-002.1', 8, 0,15);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-002.2', 8, 0,16);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-002.3', 8, 0,16);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-003', 9, 0,17);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-003.1',9, 0,18);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-004',10, 0,19);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-004.1',10, 0,20);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-005', 11, 0,21);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-005.1',11, 0,22);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-006', 12, 0,23);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS2-006.1', 12, 0,24);
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-001', 7, 0,13,'S-13');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-001.1', 7, 0,13,'S-13');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-001.2', 7, 0,14,'S-14');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-001.3', 7, 0,14,'S-14');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-002', 8, 0,15,'S-15');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-002.1', 8, 0,15,'S-15');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-002.2', 8, 0,16,'S-16');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-002.3', 8, 0,16,'S-16');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-003', 9, 0,17,'S-17');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-003.1',9, 0,18,'S-18');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-004',10, 0,19,'S-19');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-004.1',10, 0,20,'S-20');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-005', 11, 0,21,'S-21');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-005.1',11, 0,22,'S-22');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-006', 12, 0,23,'S-23');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS2-006.1', 12, 0,24,'S-24');
 /*Cuarto Semestre*/
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-001', 19, 0,25);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-001.1', 19, 0,25);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-001.2', 19, 0,26);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-001.3', 19, 0,26);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-002', 20, 0,27);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-002.1', 20, 0,27);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-002.2', 20, 0,28);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-002.3', 20, 0,28);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-003', 21, 0,29);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-003.1',21, 0,29);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-004',22, 0,30);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-004.1',22, 0,31);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-005', 23, 0,32);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-005.1',23, 0,33);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-006', 24, 0,34);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS4-006.1', 24, 0,35);
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-001', 19, 0,25,'S-25');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-001.1', 19, 0,25,'S-25');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-001.2', 19, 0,26,'S-26');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-001.3', 19, 0,26,'S-26');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-002', 20, 0,27,'S-27');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-002.1', 20, 0,27,'S-27');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-002.2', 20, 0,28,'S-28');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-002.3', 20, 0,28,'S-28');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-003', 21, 0,29,'S-29');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-003.1',21, 0,29,'S-29');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-004',22, 0,30,'S-30');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-004.1',22, 0,31,'S-31');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-005', 23, 0,32,'S-32');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-005.1',23, 0,33,'S-33');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-006', 24, 0,34,'S-34');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS4-006.1', 24, 0,35,'S-35');
 /*Quinto Semestre*/
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-001', 25, 0,36);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-001.1', 25, 0,36);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-001.2', 25, 0,37);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-001.3', 25, 0,37);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-002', 26, 0,38);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-002.1', 26, 0,38);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-002.2', 26, 0,39);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-002.3', 26, 0,39);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-003', 27, 0,40);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-003.1',27, 0,41);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-004',28, 0,42);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-004.1',28, 0,43);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-005', 29, 0,44);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-005.1',29, 0,45);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-006', 30, 0,46);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS5-006.1', 30, 0,47);
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-001', 25, 0,36,'S-36');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-001.1', 25, 0,36,'S-36');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-001.2', 25, 0,37,'S-37');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-001.3', 25, 0,37,'S-37');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-002', 26, 0,38,'S-38');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-002.1', 26, 0,38,'S-38');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-002.2', 26, 0,39,'S-39');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-002.3', 26, 0,39,'S-39');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-003', 27, 0,40,'S-40');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-003.1',27, 0,41,'S-41');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-004',28, 0,42,'S-42');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-004.1',28, 0,43,'S-43');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-005', 29, 0,44,'S-44');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-005.1',29, 0,45,'S-45');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-006', 30, 0,46,'S-46');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS5-006.1', 30, 0,47,'S-47');
 /*Septimo Semestre*/
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-001', 37, 0,48);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-001.1', 37, 0,48);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-001.2', 37, 0,49);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-001.3', 37, 0,49);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-002', 38, 0,50);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-002.1', 38, 0,50);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-002.2', 38, 0,51);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-002.3', 38, 0,51);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-003', 39, 0,52);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-003.1',39, 0,53);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-004',40, 0,54);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-004.1',40, 0,55);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-005', 41, 0,56);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-005.1',41, 0,57);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-006', 42, 0,58);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS7-006.1', 42, 0,59);
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-001', 37, 0,48,'S-48');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-001.1', 37, 0,48,'S-48');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-001.2', 37, 0,49,'S-49');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-001.3', 37, 0,49,'S-49');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-002', 38, 0,50,'S-50');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-002.1', 38, 0,50,'S-50');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-002.2', 38, 0,51,'S-51');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-002.3', 38, 0,51,'S-51');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-003', 39, 0,52,'S-52');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-003.1',39, 0,53,'S-53');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-004',40, 0,54,'S-54');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-004.1',40, 0,55,'S-55');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-005', 41, 0,56,'S-56');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-005.1',41, 0,57,'S-57');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-006', 42, 0,58,'S-58');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS7-006.1', 42, 0,59,'S-59');
 /*Octavo Semestre*/
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-001', 43, 0,60);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-001.1', 43, 0,60);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-001.2', 43, 0,61);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-001.3', 43, 0,61);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-002', 44, 0,62);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-002.1', 44, 0,62);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-002.2', 44, 0,64);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-002.3', 44, 0,64);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-003', 45, 0,65);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-003.1',45, 0,66);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-004',46, 0,67);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-004.1',46, 0,68);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-005', 47, 0,69);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-005.1',47, 0,70);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-006', 48, 0,71);
-INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor)VALUES('CS8-006.1', 48, 0,72);
-/* Insert de relaciones N:N */
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-001', 43, 0,60,'S-60');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-001.1', 43, 0,60,'S-60');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-001.2', 43, 0,61,'S-61');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-001.3', 43, 0,61,'S-61');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-002', 44, 0,62,'S-62');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-002.1', 44, 0,62,'S-62');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-002.2', 44, 0,64,'S-64');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-002.3', 44, 0,64,'S-64');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-003', 45, 0,65,'S-65');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-003.1',45, 0,66,'S-66');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-004',46, 0,67,'S-67');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-004.1',46, 0,68,'S-68');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-005', 47, 0,69,'S-69');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-005.1',47, 0,70,'S-70');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-006', 48, 0,71,'S-71');
+INSERT INTO curso(Clave, Materia, NoIntegrantes,Profesor,Salon)VALUES('CS8-006.1', 48, 0,72,'S-72');
 
 /**************  Cursos - Horario  **************/
 /*Primer Semestre*/
@@ -796,111 +793,6 @@ INSERT INTO cursohorario(Horario, Curso)VALUES(23, 'CS8-006');
 INSERT INTO cursohorario(Horario, Curso)VALUES(8, 'CS8-006.1');
 INSERT INTO cursohorario(Horario, Curso)VALUES(16, 'CS8-006.1');
 
-
-/**************  Cursos - Salon  **************/
-/*Primer Semestre*/
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-01', 'CS1-001');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-01', 'CS1-001.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-02', 'CS1-001.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-02', 'CS1-001.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-03', 'CS1-002');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-03', 'CS1-002.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-04', 'CS1-002.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-04', 'CS1-002.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-05', 'CS1-003');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-06', 'CS1-003.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-07', 'CS1-004');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-08', 'CS1-004.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-09', 'CS1-005');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-10', 'CS1-005.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-11', 'CS1-006');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-12', 'CS1-006.1');
-/*Segundo Semestre*/
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-13', 'CS2-001');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-13', 'CS2-001.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-14', 'CS2-001.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-14', 'CS2-001.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-15', 'CS2-002');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-15', 'CS2-002.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-16', 'CS2-002.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-16', 'CS2-002.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-17', 'CS2-003');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-18', 'CS2-003.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-19', 'CS2-004');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-20', 'CS2-004.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-21', 'CS2-005');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-22', 'CS2-005.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-23', 'CS2-006');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-24', 'CS2-006.1');
-/*Cuarto Semestre*/
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-25', 'CS4-001');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-25', 'CS4-001.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-26', 'CS4-001.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-26', 'CS4-001.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-27', 'CS4-002');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-27', 'CS4-002.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-28', 'CS4-002.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-28', 'CS4-002.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-29', 'CS4-003');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-30', 'CS4-003.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-31', 'CS4-004');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-32', 'CS4-004.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-33', 'CS4-005');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-34', 'CS4-005.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-35', 'CS4-006');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-36', 'CS4-006.1');
-/*Quinto Semestre*/
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-37', 'CS5-001');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-37', 'CS5-001.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-38', 'CS5-001.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-38', 'CS5-001.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-39', 'CS5-002');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-39', 'CS5-002.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-40', 'CS5-002.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-40', 'CS5-002.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-41', 'CS5-003');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-42', 'CS5-003.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-43', 'CS5-004');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-44', 'CS5-004.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-45', 'CS5-005');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-46', 'CS5-005.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-47', 'CS5-006');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-48', 'CS5-006.1');
-/*Septimo Semestre*/
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-49', 'CS7-001');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-49', 'CS7-001.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-50', 'CS7-001.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-50', 'CS7-001.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-51', 'CS7-002');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-51', 'CS7-002.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-52', 'CS7-002.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-52', 'CS7-002.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-53', 'CS7-003');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-54', 'CS7-003.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-55', 'CS7-004');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-56', 'CS7-004.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-57', 'CS7-005');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-58', 'CS7-005.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-59', 'CS7-006');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-60', 'CS7-006.1');
-/*Octavo Semestre*/
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-61', 'CS8-001');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-61', 'CS8-001.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-62', 'CS8-001.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-62', 'CS8-001.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-63', 'CS8-002');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-63', 'CS8-002.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-64', 'CS8-002.2');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-64', 'CS8-002.3');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-65', 'CS8-003');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-66', 'CS8-003.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-67', 'CS8-004');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-68', 'CS8-004.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-69', 'CS8-005');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-70', 'CS8-005.1');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-71', 'CS8-006');
-INSERT INTO cursosalon(Salon, Curso)VALUES('S-72', 'CS8-006.1');
-
 /**   Vistas necesarias  **/
 Create View CursoMateria As
 Select c.Clave,m.Nombre,m.Semestre,c.Profesor from Curso c Inner Join Materia m
@@ -919,11 +811,10 @@ On ch.Horario=h.IdHorario
 Group By cp.Clave,cp.Materia,cp.Nombre,cp.ApellidoPaterno,cp.ApellidoMaterno,h.Dias,h.Hora,cp.Semestre;
 
 Create View NoSalonV As
-Select c.Clave,sa.NoSalon
+Select c.Clave,s.NoSalon
 from cursoalumno ca Inner Join Curso c
-On ca.Curso=c.Clave Inner Join CursoSalon cs
-On c.Clave=cs.Curso Inner Join Salon sa
-On cs.Salon=sa.NoSalon;
+On ca.Curso=c.Clave Inner Join Salon s
+On c.Salon=s.NoSalon;
 
 Create View Creditos As
 Select c.Clave,m.Creditos
