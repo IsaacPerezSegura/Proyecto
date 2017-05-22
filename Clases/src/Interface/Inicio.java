@@ -123,7 +123,7 @@ public class Inicio extends JFrame implements ActionListener{
        vistas.next();
        int existeHorario=Integer.parseInt(vistas.getString("No"));
        if(existeHorario==0){
-            materias=new Materias(alumno);
+            materias=new Materias(alumno,baseAlumnos);
             this.dispose();
        }else{
         int r=JOptionPane.showConfirmDialog(this, "Lo sentimos ya cuentas con\n un horario, ¿Deseas crear uno nuevo?");

@@ -48,8 +48,9 @@ public class Materias extends JFrame implements ActionListener {
     private Object[] datos, horario, agregarObject;
     private Alumno alumno;
 
-    public Materias(Alumno alumno) {
+    public Materias(Alumno alumno, Connection conexion) {
         JFramePropiedades();
+        this.conexion=conexion;
         listas();
         tablas();
         this.alumno = alumno;
@@ -164,11 +165,6 @@ public class Materias extends JFrame implements ActionListener {
     }
 
     public void materiasPosibles(int seme) {
-        try {
-            conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/Escuela", "root", "root");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Imposible conectar");
-        }
         try {
             statement = conexion.prepareStatement("Select * from InformacionCursos "
                     + "where Semestre=? Or Semestre=?");
@@ -289,7 +285,7 @@ public class Materias extends JFrame implements ActionListener {
         if (e.getSource() == cancelar) {
             regresarInicio();
         } else if (e.getSource() == finalizar) {
-            PDF p = new PDF();
+            PDF p = new PDF(conexion);
             JFileChooser jF1 = new JFileChooser();
             String ruta = "";
                 if (e.getSource() == finalizar) {

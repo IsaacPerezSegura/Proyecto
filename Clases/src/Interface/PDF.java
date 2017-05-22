@@ -44,10 +44,8 @@ public class PDF {
     private ResultSet creditos;
     private Connection conexion;
     private PreparedStatement statement;
-    public PDF(){
-        try{
-       conexion=DriverManager.getConnection("jdbc:mysql://localhost:3306/Escuela", "root", "root");
-        }catch(Exception e){}
+    public PDF(Connection conexion){
+        this.conexion=conexion;
     }
     public void createPDF(File file, Alumno a) {
         alumno = a;
