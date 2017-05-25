@@ -45,6 +45,7 @@ Nombre char(30),
 ApellidoPaterno char(30),
 ApellidoMaterno char(30),
 Semestre int,
+Contraseña char(10),
 primary key(Matricula)
 );
 
@@ -229,9 +230,9 @@ Insert Into Profesor(Nombre,ApellidoPaterno,ApellidoMaterno) Values('Tomas','Alv
 
 
 /**************  Alumno  **************/
-INSERT INTO alumno(Matricula, Nombre, ApellidoPaterno, ApellidoMaterno,Semestre)VALUES('11080413', 'Jorge', 'Romero', 'Santos',6);
-INSERT INTO alumno(Matricula, Nombre, ApellidoPaterno, ApellidoMaterno,Semestre)VALUES('15240485', 'Carlos', 'Perez', 'Hernandez',3);
-INSERT INTO alumno(Matricula, Nombre, ApellidoPaterno, ApellidoMaterno,Semestre)VALUES('17150789', 'Lucia', 'Padilla', 'Guerrero',0);
+INSERT INTO alumno(Matricula, Nombre, ApellidoPaterno, ApellidoMaterno,Semestre,Contraseña)VALUES('11080413', 'Jorge', 'Romero', 'Santos',6,'12345');
+INSERT INTO alumno(Matricula, Nombre, ApellidoPaterno, ApellidoMaterno,Semestre,Contraseña)VALUES('15240485', 'Carlos', 'Perez', 'Hernandez',3,'12345');
+INSERT INTO alumno(Matricula, Nombre, ApellidoPaterno, ApellidoMaterno,Semestre,Contraseña)VALUES('17150789', 'Lucia', 'Padilla', 'Guerrero',0,'12345');
 
 /**************  Salones  **************/
 Insert INTO Salon(NoSalon,Espacio) Values('S-01',25);
