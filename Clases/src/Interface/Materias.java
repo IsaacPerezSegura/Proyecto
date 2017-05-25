@@ -13,7 +13,6 @@ import javax.swing.JFrame;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -57,7 +56,16 @@ public class Materias extends JFrame implements ActionListener {
         materiasPosibles(alumno.getSemestre());
         botones();
     }
-
+    public Materias(Alumno alumno,Connection conexion,ResultSet re) {
+        JFramePropiedades();
+        this.conexion=conexion;
+        listas();
+        tablas();
+        this.alumno = alumno;
+        materiasPosibles(alumno.getSemestre());
+        modificarMaterias(re);
+        botones();
+    }
     public void JFramePropiedades() {
         setSize(900, 500);
         setLayout(new BorderLayout(5, 5));
@@ -232,7 +240,43 @@ public class Materias extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "Error en consulta " + e);
         }
     }
-
+    public void modificarMaterias(ResultSet re){
+        ArrayList <String> maE=new ArrayList<String>();
+        try{
+            statement = conexion.prepareStatement("Select Curso from cursoAlumno "
+                        + "where Alumno=?");
+            statement.setString(1,re.getString("Matricula"));
+            consultas=statement.executeQuery();
+            ResultSet nombreMaterias;
+            while(consultas.next()){
+                statement=conexion.prepareStatement("Select Nombre from CursoMateria "
+                        + "Where Clave=?");
+                statement.setString(1,consultas.getString("Curso"));
+                maE.add(consultas.getString("Curso"));
+                nombreMaterias=statement.executeQuery();
+                nombreMaterias.next();
+                nombresMaterias.add(nombreMaterias.getString("Nombre"));
+            }
+            for(int i=0;i<guia.getRowCount();i++){
+                for(int u=0;u<maE.size();u++){
+                    if(guia.getValueAt(i,0).equals(maE.get(u))){
+                        Object [] materiasExistentes=new Object[(guia.getColumnCount())];
+                        for(int g=0;g<(guia.getColumnCount()-1);g++){
+                            if(guia.getValueAt(i,g)!=null){
+                            materiasExistentes[g]=guia.getValueAt(i,g);
+                            }else{
+                                materiasExistentes[g]="-";
+                            }
+                        }
+                        materiasExistentes[(guia.getColumnCount())-1]=new JButton("Eliminar");
+                        guiaD.addRow(materiasExistentes);
+                    }
+                }
+            }
+        }catch(Exception e){
+            
+        }
+    }
     public boolean getExisteMateria(ArrayList<String> materias, int row, int column) {
         boolean resultado = false;
         if (materias != null) {
@@ -285,10 +329,14 @@ public class Materias extends JFrame implements ActionListener {
         if (e.getSource() == cancelar) {
             regresarInicio();
         } else if (e.getSource() == finalizar) {
+            try{
+            statement=conexion.prepareStatement("Delete from cursoalumno where alumno=?");
+            statement.setString(1,alumno.getMatricula());
+            statement.executeUpdate();
+            }catch(Exception y){}
             PDF p = new PDF(conexion);
             JFileChooser jF1 = new JFileChooser();
             String ruta = "";
-                if (e.getSource() == finalizar) {
                    if (guiaD.getRowCount() > 0) {
                     try {
                         if (jF1.showSaveDialog(null) == jF1.APPROVE_OPTION) {
@@ -304,7 +352,6 @@ public class Materias extends JFrame implements ActionListener {
                 }else {
                 JOptionPane.showMessageDialog(null, "No haz realizado ninguna seleccion");
             }
-          }
         }
     }
 }

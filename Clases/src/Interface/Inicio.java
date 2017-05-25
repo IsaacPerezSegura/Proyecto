@@ -19,14 +19,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class Inicio extends JFrame implements ActionListener{
 
     private JPanel centerP,datosP,botones;
-    private JLabel logoI,decoracionV,decoracionH,userI;
-    private JButton buscar, horario,siguiente,anterior;
-    private JTextField nombreT,maYseT;
+    private JLabel logoI,userI,matriculaL,passL;
+    private JButton entrar;
+    private JTextField matriculaT;
+    private JPasswordField pass;
     private ArrayList<String>nombres;
     private ArrayList<String>apeP;
     private ArrayList<String>apeM;
@@ -51,12 +53,6 @@ public class Inicio extends JFrame implements ActionListener{
         centerP.setBackground(Color.white);
         datosP = new JPanel(new GridLayout(2,1));
         datosP.setBackground(Color.white);
-        siguiente=new JButton(">");
-        anterior=new JButton("<");
-        siguiente.setBackground(new Color(211,211,211));
-        anterior.setBackground(new Color(211,211,211));
-        siguiente.addActionListener(this);
-        anterior.addActionListener(this);
          try{
           icono=new ImageIcon(getClass().getResource("/Icons/head.jpg"));
           logoI=new JLabel(icono);
@@ -68,70 +64,72 @@ public class Inicio extends JFrame implements ActionListener{
           iconoP.setBackground(Color.white);
           icono=new ImageIcon(getClass().getResource("/Icons/character.png"));
           userI=new JLabel(icono);
-          iconoP.add(anterior);
           iconoP.add(userI);
-          iconoP.add(siguiente);
           datosP.add(iconoP);
         }catch(Exception e){System.out.println("error al cargar imagen");}
-        nombreT = new JTextField(20);
-        nombreT.setFont(new Font("Arial",Font.BOLD,18));
-        JPanel camposP=new JPanel(new BorderLayout());
+        matriculaT = new JTextField(20);
+        matriculaT.setFont(new Font("Arial",Font.BOLD,14));
+        matriculaL=new JLabel("Matricula");
+        matriculaL.setFont(new Font("Arial",Font.BOLD,16));
+        //JPanel camposP=new JPanel(new BorderLayout());
+        JPanel camposP=new JPanel(new GridLayout(4,1));
         camposP.setBackground(Color.white);
-        maYseT=new JTextField(15);
-        maYseT.setFont(new Font("Arial",Font.BOLD,18));
-        nombreT.setEditable(false);
-        maYseT.setEditable(false);
-        camposP.add(nombreT,BorderLayout.NORTH);
-        datosP.add(camposP);
-        camposP.add(maYseT,BorderLayout.SOUTH);
+        pass=new JPasswordField(15);
+        passL=new JLabel("Contraseña");
+        passL.setFont(new Font("Arial",Font.BOLD,16));
+        camposP.add(matriculaL);
+        camposP.add(matriculaT);
+        camposP.add(passL);
+        camposP.add(pass);
         datosP.add(camposP);
         centerP.add(datosP);
         botones=new JPanel(new FlowLayout());
         botones.setBackground(Color.white);
-        buscar = new JButton("Buscar");
-        botones.add(buscar);
-        buscar.addActionListener(this);
-       
-        /*add(anterior,BorderLayout.WEST);
-        add(siguiente,BorderLayout.EAST);*/
-        horario = new JButton("Crear Horario");
-        horario.addActionListener(this);
-        botones.add(horario);
+        entrar = new JButton("Entrar");
+        botones.add(entrar);
+        entrar.addActionListener(this);
         add(centerP,BorderLayout.CENTER);
         add(botones,BorderLayout.SOUTH);
-        nombres=new ArrayList<String>();
-        apeP=new ArrayList<String>();
-        apeM=new ArrayList<String>();
-        matri=new ArrayList<String>();
-        seme=new ArrayList<String>();
+        
         validate();
     }
-    public void revisaRegistros(){
+    public void revisaRegistros(ResultSet re){
         ResultSet vistas;
-        alumno=new Alumno();
-        alumno.setNombreCompleto(nombres.get(indice)+" "+apeP.get(indice)+" "+apeM.get(indice));
-        alumno.setMatricula(matri.get(indice));
-        alumno.setSemestre(Integer.parseInt(seme.get(indice)));
         /*
         Validando si el alumno no ha creado con anterioridad un horario
         */
         try{
        busqueda=baseAlumnos.prepareStatement("Select Count(alumno) No from cursoalumno "
                + "where Alumno=?");
-       busqueda.setString(1,alumno.getMatricula());
+       busqueda.setString(1,re.getString("matricula"));
        vistas=busqueda.executeQuery();
        vistas.next();
        int existeHorario=Integer.parseInt(vistas.getString("No"));
        if(existeHorario==0){
+            alumno=new Alumno();
+            alumno.setNombreCompleto(re.getString("Nombre")+" "+re.getString("ApellidoPaterno")
+                    +" "+re.getString("ApellidoMaterno"));
+            alumno.setMatricula(re.getString("Matricula"));
+            alumno.setSemestre(Integer.parseInt(re.getString("Semestre")));
             materias=new Materias(alumno,baseAlumnos);
             this.dispose();
        }else{
-        int r=JOptionPane.showConfirmDialog(this, "Lo sentimos ya cuentas con\n un horario, ¿Deseas crear uno nuevo?");
+           Object [] mensajes={"Nuevo","Modificar","Cancelar"};
+        int r=JOptionPane.showOptionDialog(this, "Lo sentimos ya cuentas con\n un horario ¿Deseas crear uno nuevo?"
+        ," ",JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE,null,mensajes,"Cancelar");
         if(r==0){
           busqueda=baseAlumnos.prepareStatement("Delete from CursoAlumno where Alumno=?");
-          busqueda.setString(1,alumno.getMatricula()); 
+          busqueda.setString(1,re.getString("Matricula")); 
           busqueda.executeUpdate();
-          revisaRegistros();
+          revisaRegistros(re);
+        }else if(r==1){
+            alumno=new Alumno();
+            alumno.setNombreCompleto(re.getString("Nombre")+" "+re.getString("ApellidoPaterno")
+                    +" "+re.getString("ApellidoMaterno"));
+            alumno.setMatricula(re.getString("Matricula"));
+            alumno.setSemestre(Integer.parseInt(re.getString("Semestre")));
+            materias=new Materias(alumno,baseAlumnos,re);
+            this.dispose();
         }
        }
       }catch(Exception e){
@@ -139,34 +137,22 @@ public class Inicio extends JFrame implements ActionListener{
     }
         @Override
         public void actionPerformed(ActionEvent ev) {
-            if(ev.getSource()==buscar){
+            if(ev.getSource()==entrar){
             try {
-                baseAlumnos = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "root");  //Crear conexión
-                busqueda = baseAlumnos.prepareStatement("SELECT * FROM alumno");
-                ResultSet result = busqueda.executeQuery();
-                    while(result.next()){
-                    nombres.add(result.getString("Nombre"));
-                    apeP.add(result.getString("ApellidoPaterno"));
-                    apeM.add(result.getString("ApellidoMaterno"));
-                    matri.add(result.getString("Matricula"));
-                    seme.add(result.getString("Semestre"));
+                    baseAlumnos = DriverManager.getConnection("jdbc:mysql://localhost:3306/escuela", "root", "root");  //Crear conexión
+                    busqueda = baseAlumnos.prepareStatement("SELECT * FROM alumno"
+                            + " Where matricula=? AND contraseña=?");
+                    busqueda.setString(1,matriculaT.getText());
+                    busqueda.setString(2,pass.getText());
+                    ResultSet result = busqueda.executeQuery();
+                    if(result.next()){
+                        revisaRegistros(result);
+                    }else{
+                       JOptionPane.showMessageDialog(null,"Usuario o contraseña incorrecta"); 
                     }
-                indice+=1;
-                nombreT.setText(nombres.get(indice)+" "+apeP.get(indice)+" "+apeM.get(indice));
-                maYseT.setText("Matricula: "+matri.get(indice)+" - Semestre: "+seme.get(indice));
             } catch (Exception e) {
               JOptionPane.showMessageDialog(null,"Imposible conectar");
             }
-            }else if(ev.getSource()==anterior && indice>0){
-                indice-=1;
-                nombreT.setText(nombres.get(indice)+" "+apeP.get(indice)+" "+apeM.get(indice));
-                maYseT.setText("Matricula: "+matri.get(indice)+" - Semestre: "+seme.get(indice));
-            }else if(ev.getSource()==siguiente && indice>=0 && (indice<nombres.size()-1)){
-                indice+=1;
-                nombreT.setText(nombres.get(indice)+" "+apeP.get(indice)+" "+apeM.get(indice));
-                maYseT.setText("Matricula: "+matri.get(indice)+" - Semestre: "+seme.get(indice));
-            }else if(ev.getSource()==horario && indice>=0){
-                revisaRegistros();
             }
         }
 }
