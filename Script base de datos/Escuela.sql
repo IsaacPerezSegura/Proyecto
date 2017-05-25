@@ -45,7 +45,7 @@ Nombre char(30),
 ApellidoPaterno char(30),
 ApellidoMaterno char(30),
 Semestre int,
-Contraseña char(10),
+Contraseña char(10) Not Null,
 primary key(Matricula)
 );
 
